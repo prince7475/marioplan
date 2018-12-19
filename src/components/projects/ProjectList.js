@@ -4,10 +4,10 @@ import React from 'react'
  const  ProjectList = ({projects}) => {
   return (
     <div className="project-list section">
-      {projects &&  projects.map(project => {
+      {projects &&  projects.map((project,idx) => {
          
           return (
-              <ProjectSummary project={project} key={project.id}/>
+              <ProjectSummary project={project} key={idx}/>
           )
       })}
     </div>
