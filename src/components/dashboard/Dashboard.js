@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import Notification from './Notification';
 import ProjectList from '../projects/ProjectList';
 import {connect} from 'react-redux'
+import {compose} from 'redux'
+//allows you to connect to you firebase database
+import {firestoreConnect} from 'react-redux-firebase'
 class Dashboard extends Component {
     render() {
         const { projects } = this.props
@@ -25,9 +28,18 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        projects : state.project.projects
+        projects : state.firestore.ordered.projects
     }
 }
-
-export default connect(mapStateToProps) (Dashboard)
+// you need compose because you want to connect to your store and firebase
+export default compose(
+    connect(mapStateToProps),
+    //this is how you tell firebase which collection to connect to.
+    firestoreConnect([
+        {
+            collection: 'projects'
+        }
+    ])
+)(Dashboard)
