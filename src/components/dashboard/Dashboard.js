@@ -3,18 +3,27 @@ import Notification from './Notification';
 import ProjectList from '../projects/ProjectList';
 import {connect} from 'react-redux'
 import {compose} from 'redux'
+
+import {Redirect} from 'react-router-dom'
 //allows you to connect to you firebase database
 import {firestoreConnect} from 'react-redux-firebase'
+
+
 class Dashboard extends Component {
     render() {
-        const { projects } = this.props
+        const { projects, auth } = this.props
+        const getingproject = projects ? <ProjectList projects={projects}/> : <p>Loading</p>
+        //This will redirect the user if they are not logined 
+        if (!auth.uid) return <Redirect to='/signin' />
+        
+
     return (
         <div className="dashboard container">
         <div className="row">
 
         {/* Project List */}
             <div className="col s12 m6">
-            <ProjectList projects={projects}/>
+            {getingproject}
             </div>
 
         {/* Notification */}
@@ -29,7 +38,8 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        projects : state.firestore.ordered.projects
+        projects : state.firestore.ordered.projects,
+        auth: state.firebase.auth
     }
 }
 // you need compose because you want to connect to your store and firebase
