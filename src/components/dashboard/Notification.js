@@ -1,9 +1,22 @@
 import React from 'react'
 
-export default function Notification() {
-return (
-    <div>
-        <p>Notification</p>
-    </div>
-)
+function Notification(props) {
+    return (
+        <div className='section'>
+            <div className="card z-depth-0">
+                <div className="card-content">
+                    <span className="card-title">Notifications</span>
+                    <ul className="notifications">
+                        <li>Notification</li>
+                        <li>Notification</li>
+                        <li>Notification</li>
+                        <li>Notification</li>
+                        <li>Notification</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    )
 }
+
+export default (Notification)
