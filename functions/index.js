@@ -4,13 +4,13 @@ admin.initializeApp(functions.config().firebase)
 
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
- response.send("Hello testing!!");
+    response.send("Hello testing!!");
 });
 
 const createNotification = (notification => {
     return admin.firestore().collection('notifications')
         .add(notification)
-        .then( doc => console.log('notification added', doc))
+        .then(doc => console.log('notification added', doc))
 })
 
 //Whenever a new project is created we run this function 
@@ -25,4 +25,19 @@ exports.projectCreated = functions.firestore
         }
 
         return createNotification(notification);
+    })
+
+exports.userJoined = functions.auth.user()
+    .onCreate(user => {
+        return admin.firestore().collection('users')
+            .doc(user.uid).get().then(doc => {
+                const newUser = doc.data();
+                const notification = {
+                    content: 'Joined the party',
+                    user: `${newUser.firstName} ${newUser.lastName}`,
+                    time: admin.firestore.FieldValue.serverTimestamp()
+                }
+                return createNotification(notification);
+        })
+
 })
