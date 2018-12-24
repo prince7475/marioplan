@@ -8,3 +8,4 @@ The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
 
+This is a fullstack application using react redux and firebase as a backend
